@@ -1,0 +1,101 @@
+$text-color: red;
+// Nest CSS with Sass
+nav{
+    background-color: gray;
+    ul{
+        list-style: none;
+        li{
+            display: inline-block;
+        }
+    }
+}
+
+// In Sass, a mixin is a group of CSS declarations that can be reused throughout the style sheet.
+
+// traditional rule 
+/* div {
+    -webkit-box-shadow: 0px 0px 4px #000;
+    -moz-box-shadow: 0px 0px 4px #000;
+    -ms-box-shadow: 0px 0px 4px #000;
+    box-shadow: 0px 0px 4px #000;
+} */
+
+// using sass mixin
+@mixin box-shadow($x, $y, $blur, $c){
+    -webkit-box-shadow: $x, $y, $blur, $c;
+    -moz-box-shadow: $x, $y, $blur, $c;
+    -ms-box-shadow: $x, $y, $blur, $c;
+    box-shadow: $x, $y, $blur, $c;
+} 
+
+// use if and else to add logic to your styles 
+@mixin border-effect($value){
+    @if $value == light{
+        border:1px solid cyan;
+    }
+    @else if $value == medium{
+        border:3px solid cyan;
+    }
+    @else if $value == heavy{
+        border:6px solid cyan;
+    }
+    @else{
+        border:none;
+    }
+}
+div{
+    @include box-shadow(0px, 0px, 4px, #000);
+    @include border-effect(medium);
+}
+
+// Use @for to Create a Sass Loop 
+@for $j from 1 through 6{
+    .col-#{$j} {
+        width: 100%/6 * $j;
+        border: 2px solid salmon;
+        color:seagreen;
+    }
+    .text-#{$j} { font-size:15px * $j;}
+}
+
+// using while loop 
+// $x: 1;
+// @while $x < 6 {
+//     .text-#{$x} {font-weight:15px * $x;}
+//     $x: $x + 1;
+// }
+
+// Use @each to Map Over Items in a List 
+$colors:(color1: blue, color2: red, color3: green);
+
+@each $key, $color in $colors{
+    .#{$color}-text {color: $color;}
+    .#{$color}-bg {
+        background-color: $color;
+        width:300px;
+        height:300px;
+    }
+}
+
+/* if all your mixins are saved in a partial named "_mixins.scss", and they are needed in the "main.scss" file, this is how to use them in the main file: */
+
+// @import 'mixins';
+
+
+// Sass has a feature called extend that makes it easy to borrow the CSS rules from one element and build upon them in another.
+
+.info{
+    width: 200px;
+    border: 1px solid black;
+    margin: 0 auto;
+  }
+  .info-important{
+    @extend .info;
+    background-color:magenta;
+  }
+.header{
+    text-align: center;
+  }
+  .blog-post, h2 {
+    color: $text-color;
+  }
